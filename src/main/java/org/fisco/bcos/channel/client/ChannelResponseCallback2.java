@@ -2,6 +2,7 @@ package org.fisco.bcos.channel.client;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.socket.SocketChannel;
 import io.netty.util.Timeout;
 import java.security.SecureRandom;
 import java.util.List;
@@ -13,6 +14,7 @@ import org.fisco.bcos.channel.handler.ChannelHandlerContextHelper;
 import org.fisco.bcos.channel.handler.ConnectionInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 public abstract class ChannelResponseCallback2 {
     private static Logger logger = LoggerFactory.getLogger(ChannelResponseCallback2.class);
@@ -80,9 +82,10 @@ public abstract class ChannelResponseCallback2 {
                 logger.debug("selected:{}", index);
 
                 setFromConnection(fromConnectionInfos.get(index));
-
+                
                 fromConnectionInfos.remove(fromConnectionInfos.get(index));
             }
+         
 
             if (getFromConnection() == null) {
                 // 所有节点已尝试，无法再重试了
@@ -95,8 +98,13 @@ public abstract class ChannelResponseCallback2 {
             ChannelHandlerContext ctx =
                     fromChannelConnections.getNetworkConnectionByHost(
                             getFromConnection().getHost(), getFromConnection().getPort());
-
-            if (ctx != null && ChannelHandlerContextHelper.isChannelAvailable(ctx)) {
+            
+            
+            logger.trace("send message host: {}, channel protocol: {}", getFromConnection().getHost(), getFromConnection().getPort());
+            if ((ctx != null) && ChannelHandlerContextHelper.isChannelAvailable(ctx)) {
+               
+              
+                logger.trace("send message host: {}, channel protocol: {}", getFromConnection().getHost(), getFromConnection().getPort());
                 ByteBuf out = ctx.alloc().buffer();
                 message.writeHeader(out);
                 message.writeExtra(out);

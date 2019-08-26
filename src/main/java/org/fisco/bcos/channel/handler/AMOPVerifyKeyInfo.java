@@ -1,5 +1,6 @@
 package org.fisco.bcos.channel.handler;
 
+import java.io.IOException;
 import java.util.List;
 import org.springframework.core.io.Resource;
 
@@ -15,7 +16,7 @@ public class AMOPVerifyKeyInfo {
         this.publicKey = publicKey;
     }
 
-    public Resource getPrivateKey() {
+    public Resource getPrivateKey() throws IOException {
         return privateKey;
     }
 

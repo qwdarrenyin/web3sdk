@@ -29,6 +29,8 @@ public class Channel2Client {
         ApplicationContext context =
                 new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
         Service service = context.getBean(Service.class);
+        
+
 
         service.run();
 

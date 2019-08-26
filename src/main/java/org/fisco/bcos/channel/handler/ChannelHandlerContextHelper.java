@@ -31,14 +31,19 @@ public class ChannelHandlerContextHelper {
             return channelProtocol.getEnumProtocol();
 
         } else { // default channel version
+            logger.trace(" host: {}, channel protocol with default channel version", host);
             return null;
         }
     }
 
     public static boolean isChannelAvailable(ChannelHandlerContext ctx) {
+      
 
         // return ctx.channel().isActive();
-
+        Boolean bctx =  (null != ctx);
+        Boolean bactive =  (ctx.channel().isActive());
+        Boolean bversion =  (null != getProtocolVersion(ctx));
+        logger.trace(" bctx: {}, bactive:{} bversion:{}", bctx,bactive,bversion);
         return (null != ctx) && ctx.channel().isActive() && (null != getProtocolVersion(ctx));
     }
 }
